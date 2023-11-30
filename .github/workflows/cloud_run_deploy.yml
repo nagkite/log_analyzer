@@ -3,7 +3,7 @@ name: Deploy to Google Cloud Run
 on:
   push:
     branches:
-      - test  # Trigger deployment on pushes to the 'test' branch
+      - test  # Trigger deployment on pushes to the 'test' branch1
 
 jobs:
   deploy:
