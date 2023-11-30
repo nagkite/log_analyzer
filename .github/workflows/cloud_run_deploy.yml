@@ -3,7 +3,7 @@ name: Deploy to Google Cloud Run
 on:
   push:
     branches:
-      - test  # Adjust this to the branch you want to deploy from
+      - test  # Trigger deployment on pushes to the 'test' branch
 
 jobs:
   deploy:
@@ -29,7 +29,7 @@ jobs:
     - name: Deploy to Google Cloud Run
       run: |
         gcloud run deploy mlservice \
-          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/mltest1:latest \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/mltest:latest \
           --platform managed \
           --region ${{ secrets.GCP_REGION }} \
           --allow-unauthenticated
