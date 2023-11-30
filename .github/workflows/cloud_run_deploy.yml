@@ -3,7 +3,7 @@ name: Deploy to Google Cloud Run
 on:
   push:
     branches:
-      - test  # Set to your default branch
+      - test  # Set to the branch that triggers deployment
 
 jobs:
   deploy:
@@ -11,6 +11,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Decode GCP Credentials
+      run: echo ${{ secrets.GCP_SA_KEY }} | base64 -d > gcp-key.json
+      env:
+        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
 
     - name: Set up Google Cloud Platform
       uses: google-github-actions/setup-gcloud@v0.2.0
@@ -26,8 +31,7 @@ jobs:
     - name: Deploy to Google Cloud Run
       run: |
         gcloud run deploy mlservice \
-          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/mltest1:latest \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/mltest:latest \
           --platform managed \
           --region ${{ secrets.GCP_REGION }} \
-          --allow-unauthenticated \
-          --project ${{ secrets.GCP_PROJECT_ID }}
+          --allow-unauthenticated
